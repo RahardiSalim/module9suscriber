@@ -21,3 +21,13 @@ The number of messages (100 in my case) reflects how many times I ran the publis
 This test shows how RabbitMQ efficiently handles load surges by queuing messages for later processing and why such queue monitoring is important for maintaining healthy systems.
 
 ![RabbitMQ Queue with 100 Messages](media/queue_status.png)
+
+## Reflection and Running at Least Three Subscribers
+To observe how multiple subscribers improve message processing speed, I opened three separate consoles, each running the subscriber (cargo run). I also simulated a high volume of events by running the publisher multiple times quickly.
+
+In the subscriber consoles, I noticed that each instance started processing different events — for example, one subscriber processed “Amir” and “Cica,” while another handled “Budi” and “Dira,” and the third processed “Emir” and additional messages. This shows that RabbitMQ load-balanced the event queue across all active subscribers.
+
+When observing the RabbitMQ management UI, the message queue spiked briefly, but the backlog was processed much faster than before. This demonstrates how spawning multiple subscribers leads to better throughput and more efficient event handling, as multiple consumers work in parallel.
+
+![Multiple Subscribers Processing Messages](media/multi_subscribers_terminal.png)
+![Multiple Subscribers Rabbit](media/multi_subscribers_rabbit.png)
